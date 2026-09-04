@@ -6,8 +6,8 @@ DELETE FROM `item_template` WHERE `entry` IN (90000, 90001);
 DROP TEMPORARY TABLE IF EXISTS `mantech_item_seed`;
 CREATE TEMPORARY TABLE `mantech_item_seed` LIKE `item_template`;
 
--- Portable Mailbox: the Classic core script replaces the client-visible
--- Repair Bot activation with a temporary five-minute mailbox.
+-- Portable Mailbox: the Classic spell script replaces the repair bot summoned
+-- at the end of the native cast with a temporary five-minute mailbox.
 INSERT INTO `mantech_item_seed` SELECT * FROM `item_template` WHERE `entry` = 18232;
 UPDATE `mantech_item_seed` SET
     `entry` = 90000,
@@ -40,9 +40,13 @@ UPDATE `mantech_item_seed` SET
     `spellcategorycooldown_1` = 0,
     `bonding` = 1,
     `description` = 'Deploys a mailbox for 5 minutes. Reusable. 10 minute cooldown.',
-    `ScriptName` = 'item_mantech_portable_mailbox',
+    `ScriptName` = '',
     `Duration` = 0;
 INSERT INTO `item_template` SELECT * FROM `mantech_item_seed`;
+
+INSERT INTO `spell_scripts` (`Id`, `ScriptName`)
+VALUES (22700, 'spell_mantech_portable_mailbox')
+ON DUPLICATE KEY UPDATE `ScriptName` = VALUES(`ScriptName`);
 
 TRUNCATE TABLE `mantech_item_seed`;
 
