@@ -1,7 +1,7 @@
 -- ManTech reusable portable mailbox and merchant/repair utility.
 -- Item IDs are intentionally shared by Classic, TBC, and WotLK.
 
-DELETE FROM `item_template` WHERE `entry` IN (90000, 90001);
+DELETE FROM `item_template` WHERE `entry` IN (65000, 65001, 90000, 90001);
 
 DROP TEMPORARY TABLE IF EXISTS `mantech_item_seed`;
 CREATE TEMPORARY TABLE `mantech_item_seed` LIKE `item_template`;
@@ -10,7 +10,7 @@ CREATE TEMPORARY TABLE `mantech_item_seed` LIKE `item_template`;
 -- the end of a native cast with a temporary ten-minute mailbox.
 INSERT INTO `mantech_item_seed` SELECT * FROM `item_template` WHERE `entry` = 18232;
 UPDATE `mantech_item_seed` SET
-    `entry` = 90000,
+    `entry` = 65000,
     `name` = 'Portable Mailbox',
     `displayid` = 7798,
     `Quality` = 3,
@@ -32,7 +32,7 @@ UPDATE `mantech_item_seed` SET
     `maxcount` = 1,
     `stackable` = 1,
     `MaxDurability` = 0,
-    `spellid_1` = 23076,
+    `spellid_1` = 22700,
     `spelltrigger_1` = 0,
     `spellcharges_1` = 0,
     `spellppmRate_1` = 0,
@@ -46,10 +46,10 @@ UPDATE `mantech_item_seed` SET
 INSERT INTO `item_template` SELECT * FROM `mantech_item_seed`;
 
 DELETE FROM `spell_scripts`
-WHERE `Id` IN (22700, 23076) AND `ScriptName` = 'spell_mantech_portable_mailbox';
+WHERE `Id` IN (4073, 23076) AND `ScriptName` = 'spell_mantech_portable_mailbox';
 
 INSERT INTO `spell_scripts` (`Id`, `ScriptName`)
-VALUES (4073, 'spell_mantech_portable_mailbox')
+VALUES (22700, 'spell_mantech_portable_mailbox')
 ON DUPLICATE KEY UPDATE `ScriptName` = VALUES(`ScriptName`);
 
 TRUNCATE TABLE `mantech_item_seed`;
@@ -58,7 +58,7 @@ TRUNCATE TABLE `mantech_item_seed`;
 -- which supports selling unwanted items and repairing equipment.
 INSERT INTO `mantech_item_seed` SELECT * FROM `item_template` WHERE `entry` = 18232;
 UPDATE `mantech_item_seed` SET
-    `entry` = 90001,
+    `entry` = 65001,
     `name` = 'Portable Repair Hammer',
     `displayid` = 8568,
     `Quality` = 3,
