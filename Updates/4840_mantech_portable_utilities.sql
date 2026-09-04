@@ -45,10 +45,10 @@ UPDATE `mantech_item_seed` SET
 INSERT INTO `item_template` SELECT * FROM `mantech_item_seed`;
 
 DELETE FROM `spell_scripts`
-WHERE `Id` = 22700 AND `ScriptName` = 'spell_mantech_portable_mailbox';
+WHERE `Id` IN (22700, 23076) AND `ScriptName` = 'spell_mantech_portable_mailbox';
 
 INSERT INTO `spell_scripts` (`Id`, `ScriptName`)
-VALUES (23076, 'spell_mantech_portable_mailbox')
+VALUES (4073, 'spell_mantech_portable_mailbox')
 ON DUPLICATE KEY UPDATE `ScriptName` = VALUES(`ScriptName`);
 
 TRUNCATE TABLE `mantech_item_seed`;
