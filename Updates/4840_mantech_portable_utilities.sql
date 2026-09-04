@@ -6,8 +6,9 @@ DELETE FROM `item_template` WHERE `entry` IN (65000, 65001, 90000, 90001);
 DROP TEMPORARY TABLE IF EXISTS `mantech_item_seed`;
 CREATE TEMPORARY TABLE `mantech_item_seed` LIKE `item_template`;
 
--- Portable Mailbox: the Classic spell script replaces a creature summoned at
--- the end of a native cast with a temporary ten-minute mailbox.
+-- Portable Mailbox: the Classic spell script replaces the creature produced
+-- by the native Target Dummy cast with a temporary ten-minute mailbox. This
+-- keeps its cooldown independent from the repair hammer's repair-bot spell.
 INSERT INTO `mantech_item_seed` SELECT * FROM `item_template` WHERE `entry` = 18232;
 UPDATE `mantech_item_seed` SET
     `entry` = 65000,
@@ -32,7 +33,7 @@ UPDATE `mantech_item_seed` SET
     `maxcount` = 1,
     `stackable` = 1,
     `MaxDurability` = 0,
-    `spellid_1` = 22700,
+    `spellid_1` = 4071,
     `spelltrigger_1` = 0,
     `spellcharges_1` = 0,
     `spellppmRate_1` = 0,
@@ -46,10 +47,10 @@ UPDATE `mantech_item_seed` SET
 INSERT INTO `item_template` SELECT * FROM `mantech_item_seed`;
 
 DELETE FROM `spell_scripts`
-WHERE `Id` IN (4073, 23076) AND `ScriptName` = 'spell_mantech_portable_mailbox';
+WHERE `Id` IN (22700, 4073, 23076) AND `ScriptName` = 'spell_mantech_portable_mailbox';
 
 INSERT INTO `spell_scripts` (`Id`, `ScriptName`)
-VALUES (22700, 'spell_mantech_portable_mailbox')
+VALUES (4071, 'spell_mantech_portable_mailbox')
 ON DUPLICATE KEY UPDATE `ScriptName` = VALUES(`ScriptName`);
 
 TRUNCATE TABLE `mantech_item_seed`;
