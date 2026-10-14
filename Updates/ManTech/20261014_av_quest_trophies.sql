@@ -35,3 +35,6 @@ UPDATE reference_loot_template SET condition_id=3021 WHERE entry=1 AND item=1742
 -- Preserve existing EventAI charge/rend actions; the script subclasses EventAI.
 UPDATE creature_template SET ScriptName='npc_av_stable_beast' WHERE Entry IN (10981,10990) AND ScriptName IN ('','npc_av_stable_beast');
 UPDATE creature_template SET ScriptName='npc_av_stable_master' WHERE Entry IN (13616,13617) AND ScriptName IN ('','npc_av_stable_master');
+
+-- Existing invisible markers at the six native commander discovery locations.
+UPDATE creature_template SET ScriptName='npc_av_sky_lord_marker' WHERE Entry BETWEEN 14026 AND 14031 AND ScriptName IN ('','npc_av_sky_lord_marker');
