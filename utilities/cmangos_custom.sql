@@ -11,10 +11,10 @@
 -- deduce proper core behaviour from them.
 -- 
 -- Possible but non-exhaustive reasons for these updates to be needed:
---	- CMaNGOS core does not properly handle the data these updates are fixing (yet)
---	- Official/sniff data are from a different expansion/patch and were possibly changed since Classic
---	- Official/sniff data from client are different from what they are server-side
---	- Data or their parsing were wrong
+-- CMaNGOS core does not properly handle the data these updates are fixing (yet)
+-- Official/sniff data are from a different expansion/patch and were possibly changed since Classic
+-- Official/sniff data from client are different from what they are server-side
+-- Data or their parsing were wrong
 
 
 -- ============================================================
@@ -141,8 +141,32 @@ UPDATE item_template SET class=0, subclass=3 WHERE entry=5514;
 UPDATE creature_template SET DisplayId2=0 WHERE Entry IN (3651, 16979); -- [UNUSED] Kolkar Observer ; Midsummer Merchant
 UPDATE creature_template SET DisplayId3=13132, DisplayId4=0 WHERE Entry=11446;  -- Gordok Spirit
 
+-- Displayid
+UPDATE `creature_template` SET `DisplayIdProbability1` = 100, `DisplayIdProbability2` = 0 WHERE `entry` IN (
+16995 -- Mouth of Kel'Thuzad
+);
+
+-- -------------------------------
+
+UPDATE `creature_template` SET `name` = 'Redeemed Spirit of Earth' WHERE `entry` = 21739; -- Redeemed Spriit of Earth
+
 -- -------------------------------
 -- Quest custom changes
 -- -------------------------------
 
 -- None
+
+-- -------------------------------
+-- Spell custom changes
+-- -------------------------------
+
+-- s.14108 Venomhide Poison
+-- was 4 (poison) - and source has immunity to it - so it prevents itself with applying aura - had to remove it.
+UPDATE spell_template SET Dispel = 0 WHERE id = 14108;
+
+-- -------------------------------
+-- CORE - remove after added in core
+-- -------------------------------
+-- spell FIX (unique - no stack)
+UPDATE spell_template SET AttributesEx=AttributesEx|0x00000800 WHERE Id IN(15971); -- Demoralizing Roar
+
